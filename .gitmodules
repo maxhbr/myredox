@@ -1,0 +1,6 @@
+[submodule "submodules/zmk"]
+	path = submodules/zmk
+	url = https://github.com/zmkfirmware/zmk
+[submodule "submodules/redox-keyboard"]
+	path = submodules/redox-keyboard
+	url = https://github.com/mattdibi/redox-keyboard
