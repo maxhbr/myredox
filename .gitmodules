@@ -4,3 +4,6 @@
 [submodule "submodules/redox-keyboard"]
 	path = submodules/redox-keyboard
 	url = https://github.com/mattdibi/redox-keyboard
+[submodule "submodules/Redox-neodox-Case"]
+	path = submodules/Redox-neodox-Case
+	url = https://github.com/Pastitas/Redox-neodox-Case
