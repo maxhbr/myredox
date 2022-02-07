@@ -49,6 +49,8 @@ module stand() {
     bar(p[0], p[3]);
 }
 
+$fs = 0.01;
+
 stand();
 translate([100,180,0])
 mirror([1,0.7,0]) stand();
