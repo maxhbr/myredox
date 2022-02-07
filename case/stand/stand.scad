@@ -5,14 +5,17 @@ module pin(t) {
     pinr = 2;
     translate(t) {
         translate([0,0,3]) {
-            cylinder(h = 6, r1 = baser, r2 = baser, center = true);
-            translate([0,0,3.5]) {
-                cylinder(h = 1, r1 = baser, r2 = baser * 0.9, center = true);
-            };
-            translate([0,0,4.5]) {
-                cylinder(h = 3, r1 = pinr, r2 = pinr, center = true);
-                translate([0,0,2.5]) {
-                    cylinder(h = 2, r1 = pinr, r2 = pinr * 0.6, center = true);
+            translate([0,0,-0.25])
+                cylinder(h = 7, r1 = baser, r2 = baser, center = true);
+            translate([0,0,0.25]) {
+                translate([0,0,3.5]) {
+                    cylinder(h = 1, r1 = baser, r2 = baser * 0.9, center = true);
+                };
+                translate([0,0,4.5]) {
+                    cylinder(h = 3, r1 = pinr, r2 = pinr, center = true);
+                    translate([0,0,2.5]) {
+                        cylinder(h = 2, r1 = pinr, r2 = pinr * 0.6, center = true);
+                    };
                 };
             };
         };
