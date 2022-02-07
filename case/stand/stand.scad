@@ -2,7 +2,7 @@
 
 module pin(t) {
     baser = 4;
-    pinr = 2;
+    pinr = 1.5;
     translate(t) {
         translate([0,0,3]) {
             translate([0,0,-0.25])
