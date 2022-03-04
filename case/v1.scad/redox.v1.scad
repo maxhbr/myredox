@@ -70,7 +70,7 @@ module edge() {
     bottomW = 2.5;
     sideW = 4;
     edgeH = 4;
-    overH = 3;
+    overH = 2.5;
     delta = 0.5;
 
     difference() {
@@ -137,8 +137,17 @@ module case() {
         union() {
             m3base(p[0], 6);
             m3base(p[1], 6);
-            m3base(p[2], 6);
-            m3base(p[3], 6);
+            hull() {
+                m3base(p[2], 6);
+                translate(p[2] + [0,6,-3])
+                    cube([8,1,6],center=true);
+            }
+            hull() {
+                m3base(p[3], 6);
+                translate(p[3] + [-5,5,-3])
+                    rotate([0,0,45])
+                    cube([8,1,6],center=true);
+            }
             translate([-213.35,144.3,0])
                 edge();
         }
@@ -147,8 +156,8 @@ module case() {
         m3hole(p[1]);
         m3hole(p[2]);
         m3hole(p[3]);
-        
-        translate([-62.25, 78.4,-2.75]) {
+
+        translate([-62.25, 78.2,-2.75]) {
             cube([19,35,5.5],center=true);
             translate([7.5,0,-0.25]) cube([4,35,6],center=true);
             translate([-7.5,0,-0.25]) cube([4,35,6],center=true);
@@ -165,6 +174,9 @@ module case() {
             cube([6.5+2,6.5+2,5], center=true);
             cylinder(d=3,h=20, center=true);
         }
+        translate([-5.5,87.4,-2.5]) {
+            cube([9,17,5], center=true);
+        }
     }
 }
 
@@ -180,11 +192,15 @@ translate([57,32,3]) {
 
 
 if($preview) {
-    color("green", 1) import("../assets/redox_rev1.stl");
-    // color("black", 0.5) plate();
     translate([200,0,0])
-    intersection() {
+        intersection() {
+            case();
+            cube([100,100,100],center=true);
+        }
+
+    translate([-200,0,0]) {
         case();
-        cube([100,100,100],center=true);
+        color("green", 1) import("../assets/redox_rev1.stl");
+        /* color("black", 0.5) plate(); */
     }
 }
