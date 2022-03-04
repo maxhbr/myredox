@@ -12,7 +12,7 @@
 
 #define DEFAULT 0
 #define NUM     1
-#define SYM     2
+#define ADJ     2
 
 / {
     keymap {
@@ -22,12 +22,12 @@
 			bindings = <
 //+----------+----------+----------+----------+----------+----------+                                                 +----------+----------+----------+----------+----------+----------+
 //|          |          |          |          |          |          |                                                 |          |          |          |          |          |          |
-  &kp ESC    &kp N1     &kp N2     &kp N3     &kp N4     &kp N5                                                       &kp N6     &kp N7     &kp N8     &kp N9     &kp N0     &kp LEFT_BRACKET
-  &kp ESC    &kp Q      &kp W      &kp E      &kp R      &kp T      &none                                  &none      &kp Y      &kp U      &kp I      &kp O      &kp P      &kp MINUS
-  &kp CAPS   &kp A      &kp S      &kp D      &kp F      &kp G      &none                                  &none      &kp H      &kp J      &kp K      &kp L      &kp SEMI   &kp SQT
+  &kp ESC    &kp N1     &kp N2     &kp N3     &kp N4     &kp N5                                                       &kp N6     &kp N7     &kp N8     &kp N9     &kp N0     &kp MINUS
+  &kp ESC    &kp Q      &kp W      &kp E      &kp R      &kp T      &kp DEL                                &kp BSPC   &kp Y      &kp U      &kp I      &kp O      &kp P      &kp LEFT_BRACKET
+  &kp CAPS   &kp A      &kp S      &kp D      &kp F      &kp G      &kp TAB                                &kp TAB    &kp H      &kp J      &kp K      &kp L      &kp SEMI   &kp SQT
   &kp LSHFT  &kp Z      &kp X      &kp C      &kp V      &kp B      &kp DEL    &mt LSHFT TAB    &mt LSHFT TAB &kp BSPC &kp N     &kp M      &kp COMMA  &kp DOT    &kp FSLH   &kp RSHFT
 //+----------+----------+----------+----------+----------+----------+----------+----------+     +----------+----------+----------+----------+----------+----------+----------+----------+
-             &none      &none      &mo SYM    &kp DEL    &lt NUM RET &mt LCTRL RET &mt LMETA RET &mt RALT SPC &mt RCTRL SPC &lt NUM SPC &kp BSPC &mo SYM &none    &none
+             &none      &none      &mo SYM    &kp DEL    &lt NUM RET &mt LCTRL RET &mt LMETA RET &mt RALT SPC &mt RCTRL SPC &lt NUM SPC &kp LEFT &kp DOWN &kp UP  &kp RIGHT
 //           |          |          |          |          |          |          |          |     |          |          |          |          |          |          |          |
 //           +----------+----------+----------+----------+----------+----------+----------+     +----------+----------+----------+----------+----------+----------+----------+
 			>;
@@ -36,8 +36,8 @@
 			bindings = <
 //+----------+----------+----------+----------+----------+----------+                                                 +----------+----------+----------+----------+----------+----------+
 //|          |          |          |          |          |          |                                                 |          |          |          |          |          |          |
-  &trans     &trans     &trans     &trans     &trans     &trans                                                       &trans     &trans     &trans     &trans     &trans     &trans
-  &trans     &kp N1     &kp N2     &kp N3     &kp N4     &kp N5     &none                                  &none      &kp N6     &kp N7     &kp N8     &kp N9     &kp N0     &kp LEFT_BRACKET
+  &trans     &kp F1     &kp F2     &kp F3     &kp F4     &kp F5                                                       &kp F6     &kp F7     &kp F8     &kp F9     &kp F10    &kp F11
+  &trans     &kp N1     &kp N2     &kp N3     &kp N4     &kp N5     &none                                  &none      &kp N6     &kp N7     &kp N8     &kp N9     &kp N0     &kp F12
   &trans     &none      &kp LC(PAGE_UP) &kp PAGE_UP &none &none     &none                                  &none      &none      &none      &kp UP     &none      &none      &kp PLUS
   &trans     &none      &kp LC(PAGE_DOWN) &kp PAGE_DOWN &none &none &trans     &trans           &trans     &trans     &none      &kp LEFT   &kp DOWN   &kp RIGHT  &none      &trans
 //+----------+----------+----------+----------+----------+----------+----------+----------+     +----------+----------+----------+----------+----------+----------+----------+----------+
@@ -46,13 +46,13 @@
 //           +----------+----------+----------+----------+----------+----------+----------+     +----------+----------+----------+----------+----------+----------+----------+
 			>;
 		};
-		sym_layer { // 2
+		adj_layer { // 2
 			bindings = <
 //+----------+----------+----------+----------+----------+----------+                                                 +----------+----------+----------+----------+----------+----------+
 //|          |          |          |          |          |          |                                                 |          |          |          |          |          |          |
-  &trans     &trans     &trans     &trans     &trans     &trans                                                       &trans     &trans     &trans     &trans     &trans     &trans
-  &bootloader &kp F1    &kp F2     &kp F3     &kp F4     &kp F5     &none                                  &none      &kp F6     &kp F7     &kp F8     &kp F9     &kp F10    &kp F11
-  &trans     &none      &none      &none      &none      &none      &none                                  &none      &none      &none      &none      &none      &none      &kp F12
+  &bootloader &trans    &trans     &trans     &trans     &trans                                                       &trans     &trans     &trans     &trans     &trans     &trans
+  &trans     &none      &none      &none      &none      &none      &none                                  &none      &none      &none      &none      &none      &none      &trans
+  &trans     &none      &none      &none      &none      &none      &none                                  &none      &none      &none      &none      &none      &none      &trans
   &caps_word &none      &none      &none      &none      &none      &trans     &trans           &trans     &trans     &none      &none      &none      &none      &none      &caps_word
 //+----------+----------+----------+----------+----------+----------+----------+----------+     +----------+----------+----------+----------+----------+----------+----------+----------+
              &trans     &trans     &trans     &none      &tog NUM   &trans     &trans           &trans     &trans     &tog NUM   &trans     &trans     &trans     &trans
@@ -60,6 +60,11 @@
 //           +----------+----------+----------+----------+----------+----------+----------+     +----------+----------+----------+----------+----------+----------+----------+
 			>;
 		};
+    };
+};
+
+
+
 
 /*
         default_layer {
@@ -78,7 +83,7 @@
             >;
 
         };
-        
+
         lower_layer {
 // --------------------------------------------------------------------------------------------------------------------------
 // | ESC   |  1  |  2  |   3   |   4   |  5  |                   ---              |  6  |  7  |   8  |  9   |  0  |  DEL  |
@@ -110,7 +115,7 @@
    &trans  &trans    &trans   &mo 3         &trans        &mo 3  &trans &trans &trans        &trans       &trans    &trans   &trans    &trans
             >;
         };
-        
+
         adjust_layer {
 // -----------------------------------------------------------------------------------------
 // |  F1   |  F2   |    F3    |    F4     |     F5     | F6 |                   ---                | F7  | F8  |  F9  |  F10 | F11 | F12        |
@@ -127,5 +132,3 @@
             >;
         };
 */
-    };
-};

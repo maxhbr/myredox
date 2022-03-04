@@ -7,3 +7,6 @@
 [submodule "submodules/Redox-neodox-Case"]
 	path = submodules/Redox-neodox-Case
 	url = https://github.com/Pastitas/Redox-neodox-Case
+[submodule "case/libs/Round-Anything"]
+	path = case/libs/Round-Anything
+	url = https://github.com/Irev-Dev/Round-Anything
