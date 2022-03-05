@@ -25,9 +25,9 @@
   &kp ESC    &kp N1     &kp N2     &kp N3     &kp N4     &kp N5                                                       &kp N6     &kp N7     &kp N8     &kp N9     &kp N0     &kp MINUS
   &kp ESC    &kp Q      &kp W      &kp E      &kp R      &kp T      &kp DEL                                &kp BSPC   &kp Y      &kp U      &kp I      &kp O      &kp P      &kp LEFT_BRACKET
   &kp CAPS   &kp A      &kp S      &kp D      &kp F      &kp G      &kp TAB                                &kp TAB    &kp H      &kp J      &kp K      &kp L      &kp SEMI   &kp SQT
-  &kp LSHFT  &kp Z      &kp X      &kp C      &kp V      &kp B      &kp DEL    &mt LSHFT TAB    &mt LSHFT TAB &kp BSPC &kp N     &kp M      &kp COMMA  &kp DOT    &kp FSLH   &kp RSHFT
+  &kp LSHFT  &kp Z      &kp X      &kp C      &kp V      &kp B      &kp LCTRL  &mt LSHFT TAB    &mt LSHFT TAB &kp RCTRL &kp N    &kp M      &kp COMMA  &kp DOT    &kp FSLH   &kp RSHFT
 //+----------+----------+----------+----------+----------+----------+----------+----------+     +----------+----------+----------+----------+----------+----------+----------+----------+
-             &none      &none      &mo SYM    &kp DEL    &lt NUM RET &mt LCTRL RET &mt LMETA RET &mt RALT SPC &mt RCTRL SPC &lt NUM SPC &kp LEFT &kp DOWN &kp UP  &kp RIGHT
+             &kp RALT   &none      &mo SYM    &kp DEL    &lt NUM RET &kp RET   &mt LMETA RET    &mt LMETA SPC &kp SPC &lt NUM SPC &kp LEFT  &kp DOWN   &kp UP     &kp RIGHT
 //           |          |          |          |          |          |          |          |     |          |          |          |          |          |          |          |
 //           +----------+----------+----------+----------+----------+----------+----------+     +----------+----------+----------+----------+----------+----------+----------+
 			>;

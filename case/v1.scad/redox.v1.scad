@@ -88,6 +88,13 @@ module edge() {
             translate([0,0,-edgeH])
                 cylinder(r=delta, h=edgeH + 0.5 + overH);
         };
+        translate([0,60,-(edgeH + bottomW)] - [-213.35,144.3,-0.3])
+            rotate([180,0,90])
+            linear_extrude(0.31)
+            text("github.com/maxhbr",
+                    font = "Roboto Condensed:style=Light",
+                    size = 4,
+                    halign = "center");
     }
 }
 
@@ -146,7 +153,7 @@ module case() {
                 m3base(p[3], 6);
                 translate(p[3] + [-5,5,-3])
                     rotate([0,0,45])
-                    cube([8,1,6],center=true);
+                    cube([8,0.5,6],center=true);
             }
             translate([-213.35,144.3,0])
                 edge();
