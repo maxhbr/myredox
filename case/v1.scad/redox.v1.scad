@@ -65,6 +65,16 @@ module L301230() {
         };
     };
 }
+module L6536100() {
+    //  65 · 36 · 10
+    color("gray") {
+        hull() {
+            cube([65,34,8],center=true);
+            cube([63,36,8],center=true);
+            cube([63,34,10],center=true);
+        };
+    };
+}
 
 module edge() {
     bottomW = 2.5;
@@ -209,5 +219,9 @@ if($preview) {
         case();
         color("green", 1) import("../assets/redox_rev1.stl");
         /* color("black", 0.5) plate(); */
+        translate([-15*cos(30),15*sin(30),-12])
+        rotate([0,0,-30])
+        L6536100();
     }
 }
+
