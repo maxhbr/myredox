@@ -322,6 +322,7 @@ if($preview) {
                     cube([100,100,100],center=true);
             }
         }
+    /* translate([200,100,0]) case(tentA=12); */
 
     translate([-200,-100,0]) {
         case();
