@@ -83,7 +83,7 @@ module pcbContour() {
         import("../assets/redox_rev1_contour.stl");
 }
 
-module case(tentA=0,right=0) {
+module case(tentA=0,right=0,trrs=1) {
     bottomW = 2.5;
     sideW = 4;
     edgeH = 4;
@@ -97,8 +97,8 @@ module case(tentA=0,right=0) {
             minkowski() {
                 union() {
                     pcbContour();
-                    translate([-50,0,0.8])
-                    cube([80,14,1.6], center=true);
+                    translate([-50,0,0.8]) cube([80,14,1.6], center=true);
+                    //translate([-0.545,90.53,0.8]) cube([10,10,1.6], center=true);
                 }
                 translate([0,0,-(edgeH + bottomW)])
                     hull() {
@@ -131,19 +131,65 @@ module case(tentA=0,right=0) {
                     rotate([0,0,45])
                     cube([8,0.5,6],center=true);
             }
+            //supports
             color("red")
-            for(t=[[-50,-5,0]
-                  ,[-111,-9,0]
-                  ,[-80,97,0]
-                  ,[6,28,0]
-                  ,[-135,50,0]
-                  ]) {
-                translate([0,0,-6]+t)
-                hull() {
-                    cylinder(d=7,h=6);
-                    cylinder(d=8,h=5);
+                union() {
+                    for(t=[[-50,-5,0]
+                          ,[-111,-9,0]
+                          ,[-130,-9,0]
+                          ,[-80,97,0]
+                          ,[6,28,0]
+                          ,[-135,50,0]
+                          ,[-sin(30)*26,-cos(30)*26,0]
+                          ]) {
+                        translate([0,0,-6]+t)
+                            hull() {
+                                cylinder(d=7,h=6);
+                                cylinder(d=8,h=5);
+                            }
+                    }
+                    for(t=[[[-52,37,0],0]
+                          ,[[-72,37,0],0]
+                          ,[[-72,56,0],0]
+                          ,[p[1]+[0,55,0],0]
+                          ,[[-10,55,0],120]
+                          ,[[-18*cos(30),18*sin(30),0],60]
+                          ,[[-90.5,73,0],0]
+                          ,[[-33.5,75,0],0]
+                          ]) {
+                        translate(t[0])
+                            rotate([0,0,t[1]])
+                            union() {
+                                hull() {
+                                    translate([-1,-2.5,-6])
+                                        cube([2,5,6]);
+                                    translate([-1.5,-3,-6])
+                                        cube([3,6,5]);
+                                }
+                                hull() {
+                                    translate([-1.5,-3,-6])
+                                        cube([3,6,5]);
+                                translate([0,0,-6])
+                                    cylinder(d1=9,d2=3,h=5);
+                                }
+                            }
+                    }
+                    for(t=[[[-18*cos(30),18*sin(30),0],[7*cos(30),-7*sin(30),0]]
+                          ,[p[1],p[1]+[0,100,0]]
+                          ,[[-72,37,0],[-72,56,0]]
+                          ,[p[2],p[2]+[-33,0,0],p[2]+[-33,4,1],p[2]+[0,4,1]]
+                          ,[p[3],p[3]+[23,0,0],p[3]+[23,6,1],p[3]+[0,6,1]]
+                          ,[[-135,0,0],[-135,100,0],[-134,0,0],[-133,100,0]]
+                          ,[[-111+30,-9+2,0] ,[-111-20,-9+2,0],[-111+30,-9,0] ,[-111-20,-9,0]]
+                        ]) {
+                        hull(){
+                            for(tt=t){
+                                translate(tt+[0,0,-6]) cylinder(d=3, h=3);
+                                translate(tt+[0,0,-6]) cylinder(d=2, h=4);
+                            }
+                        }
+                    }
                 }
-            }
         }
 
         // MCU
@@ -167,28 +213,38 @@ module case(tentA=0,right=0) {
                 hull() {
                     translate([-3,0,0]) rotate([90,0,0]) cylinder(d=7, h=10);
                     translate([3,0,0]) rotate([90,0,0]) cylinder(d=7, h=10);
-                    translate([-3,0,-2]) rotate([90,0,0]) cylinder(d=7, h=10);
-                    translate([3,0,-2]) rotate([90,0,0]) cylinder(d=7, h=10);
+                    translate([-3,0,-6]) rotate([90,0,0]) cylinder(d=7, h=10);
+                    translate([3,0,-6]) rotate([90,0,0]) cylinder(d=7, h=10);
                 }
         }
         // reset switch
         color("blue")
         translate([-127.635+32.35,90.297+0.6,-2.5]) {
-            cube([6.5+2,6.5+2,5], center=true);
+            hull() {
+                cube([6.5+3,6.5+3,3], center=true);
+                cube([6.5+2,6.5+2,5], center=true);
+            }
             cylinder(d=3,h=20, center=true);
         }
         // trrs jack
         color("blue")
-        translate([-7,87.4,-3]) {
+        translate(p[2] + [0,-4.81,0] + (right==0 ? [9,0,0] : [14,0,0])) {
             hull() {
-                cube([13,17.26,6], center=true);
-                translate([1,-2,2])
-                cube([15,17.26,6], center=true);
+                translate([0,0,-1.5-3]) cube([5,17.26,3], center=true);
+                translate([0,-1,-1.5-3]) cube([7,16.26,3], center=true);
+                translate([0,-1,-0.5-3]) cube([9,15.26,3], center=true);
+            }
+            if(trrs==1) {
+                hull() {
+                    for(t=[[0,6.5,-5.3/2],[0,6.5,-5.3/2-6]]) {
+                        translate(t) rotate([270,0,0]) cylinder(d=8,h=10);
+                    }
+                }
             }
         }
         color("red")
         untent(tentA)
-        translate([-5,60,-(edgeH + bottomW)+0.3])
+        translate([-130,50,-(edgeH + bottomW)+0.3])
             rotate([180,0,90])
             linear_extrude(0.31)
             mirror(right==0 ? [0,0,0] : [1,0,0])
@@ -253,7 +309,7 @@ module plate() {
 
 if($preview) {
     translate([-200,140,0]) {
-        case(right=1);
+        case(right=1,trrs=1);
     }
     translate([200,-100,0])
         intersection() {
@@ -264,39 +320,16 @@ if($preview) {
                     cube([100,100,100],center=true);
             }
         }
-    /* translate([200,100,0]) */
-    /*     intersection() { */
-    /*         case(8); */
-    /*         union() { */
-    /*             cube([100,100,100],center=true); */
-    /*             translate([-100,100,0]) */
-    /*                 cube([100,100,100],center=true); */
-    /*         } */
-    /*     } */
 
     translate([-200,-100,0]) {
         case();
-        tent() {
-            color("green", 1) import("../assets/redox_rev1.stl");
-        }
-        /* color("black", 0.5) plate(); */
-        /* translate([0,-60,0]) */
-        /* translate([-40*cos(30),40*sin(30),0]) */
-        /*     rotate([0,0,-30]) */
-        /*     L6536100(); */
-        /* translate([23,59,-2]) */
-        /*     rotate([0,0,90]) */
-        /*     L472878(); */
+        color("green", .7) import("../assets/redox_rev1.stl");
     }
-    /* translate([-300,100,0]) { */
-    /*     case(12); */
-    /*     tent(12) { */
-    /*         color("green", 1) import("../assets/redox_rev1.stl"); */
-    /*     } */
-    /*     /1* color("black", 0.5) plate(); *1/ */
-    /*     /1* translate([-40*cos(30),40*sin(30),6]) *1/ */
-    /*     /1*     rotate([0,0,-30]) *1/ */
-    /*     /1*     L6536100(); *1/ */
-    /* } */
+
+    translate([-400,140,0]) {
+        case(right=1);
+        mirror([1,0,0])
+        color("green", 1) import("../assets/redox_rev1.stl");
+    }
 }
 
