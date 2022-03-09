@@ -244,10 +244,14 @@ module case(tentA=0,right=0,trrs=1) {
                 }
             }
         }
+
+        // outer bounds
+        translate([0,0,100/2+4.1]) cube([1000,1000,100],center=true);
+        untent(tentA) translate([0,0,-100/2-6.5]) cube([1000,1000,100],center=true);
+
         color("red")
-        untent(tentA)
-        translate([-130,50,-(edgeH + bottomW)+0.3])
-            rotate([180,0,90])
+        translate([-120,50,-edgeH-0.3])
+            rotate([0,0,90])
             linear_extrude(0.31)
             mirror(right==0 ? [0,0,0] : [1,0,0])
             text("github.com/maxhbr",
@@ -255,9 +259,6 @@ module case(tentA=0,right=0,trrs=1) {
                     size = 6,
                     halign = "center");
 
-        // outer bounds
-        translate([0,0,100/2+4.1]) cube([1000,1000,100],center=true);
-        untent(tentA) translate([0,0,-100/2-6.5]) cube([1000,1000,100],center=true);
     }
 }
 
