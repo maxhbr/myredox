@@ -51,8 +51,8 @@
 			bindings = <
 //+---------+---------+---------+---------+---------+---------+                                                             +---------+---------+---------+---------+---------+---------+
 //|         |         |         |         |         |         |                                                             |         |         |         |         |         |         |
-  &bootloader &trans  &trans    &trans    &trans    &trans      /* ---------+                                 +--------- */ &trans    &trans    &trans    &trans    &trans    &trans
-  &trans    &none     &none     &none     &none     &none     &none                                           &none         &none     &none     &none     &none     &none     &trans
+  &bootloader &bt BT_SEL 0 &bt BT_SEL 1 &bt BT_SEL 2 &bt BT_SEL 3 &bt BT_SEL 4                                              &bt BT_CLR &out OUT_TOG &trans &trans   &trans    &trans
+  &reset    &none     &none     &none     &none     &none     &none                                           &none         &none     &none     &none     &none     &none     &trans
   &trans    &none     &none     &none     &none     &none     &none          /* ----------+     +--------- */ &none         &none     &none     &none     &none     &none     &trans
   &caps_word &none    &none     &none     &none     &none     &trans        &trans              &trans        &trans        &none     &none     &none     &none     &none     &caps_word
   &trans    &trans    &trans    &none     &tog NUM            &trans        &trans              &trans        &trans        &tog NUM            &trans    &trans    &trans    &trans
