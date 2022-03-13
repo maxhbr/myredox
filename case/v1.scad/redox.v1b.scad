@@ -231,7 +231,7 @@ module case(tentA=0,right=0,trrs=1) {
         }
         // trrs jack
         color("blue")
-        translate(p[2] + [0,-4.81,0] + (right==0 ? [9,0,0] : [14,0,0])) {
+        translate(p[2] + [0,-4.81,0] + (right==1 ? [9,0,0] : [14,0,0])) {
             hull() {
                 translate([0,0,-1.5-3]) cube([5,17.26,3], center=true);
                 translate([0,-1,-1.5-3]) cube([7,16.26,3], center=true);
