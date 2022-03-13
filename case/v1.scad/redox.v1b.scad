@@ -256,8 +256,8 @@ module case(tentA=0,right=0,trrs=1) {
             linear_extrude(0.31)
             mirror(right==0 ? [0,0,0] : [1,0,0])
             text("github.com/maxhbr",
-                    font = "Roboto Condensed:style=Light",
-                    size = 6,
+                    font = "Roboto Condensed:style=bold",
+                    size = 6.5,
                     halign = "center");
 
     }
