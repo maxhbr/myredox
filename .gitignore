@@ -2,6 +2,7 @@
 artifacts
 bootloader
 build-*
+build/
 modules
 tools
 zephyr
