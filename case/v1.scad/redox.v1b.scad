@@ -44,7 +44,7 @@ module counterTent(tentA=0) {
 module m3hole(t) {
     color("gray")
     translate(t) {
-        cylinder(d=4, h=5.7*2, center=true);
+        cylinder(d=4 + 0.2, h=5.7*2, center=true);
     };
 }
 
@@ -118,6 +118,7 @@ module case(tentA=0,right=0,trrs=1) {
                 translate([0,0,-edgeH])
                     cylinder(r=delta, h=edgeH + 0.5 + overH);
             };
+
             m3base(p[0], 6);
             m3base(p[1], 6);
             hull() {
