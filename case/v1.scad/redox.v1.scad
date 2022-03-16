@@ -331,13 +331,21 @@ module caseWithLipo(right=0, switch=1) {
             // switch
             if (switch==1) {
                 color("pink")
-                    translate([-62.5,-3,-1]) {
-                        hull() {
-                            cube([13,14,7],center=true);
-                            translate([0,0,2]) cube([13,8,7],center=true);
+                    translate([-61.5,-3,-1]) {
+                        translate([0,-3.5,0])
+                            cube([13,7,7],center=true);
+                        translate([0,1.7,0]) {
+                            intersection() {
+                                hull() {
+                                    cube([13,8,7],center=true);
+                                    translate([0,0,3]) cube([13,1,7],center=true);
+                                }
+                            translate([0,0,2])
+                                cube([13,10,9],center=true);
+                            }
                         }
                         translate([0,-7,0])
-                            cube([9,14,6],center=true);
+                            cube([9,14,5],center=true);
                     }
             }
         }
@@ -391,8 +399,7 @@ module plate() {
     }
 }
 
-
-if($preview) {
+if($preview && false) {
     translate([-200,140,0]) {
         case(right=1,trrs=1);
     }
