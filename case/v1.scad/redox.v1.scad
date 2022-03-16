@@ -32,9 +32,10 @@ module counterTent(tentA=0) {
     if (tentA==0) {
         children();
     } else {
-        for (a=[0:tentA]) {
+        res=$preview ? 1 : 10;
+        for (a=[0:tentA * 10]) {
             translate(-tentP)
-                rotate([0,a,0])
+                rotate([0,a / res,0])
                 translate(tentP)
                 children();
         }
@@ -68,6 +69,7 @@ module L6536100() {
 }
 
 module L472878() {
+    // https://www.amazon.de/-/en/Lithium-Protective-Insulation-Connector-Development/dp/B087LTZW61/
     // 47 · 28 · 7.8 mm
     color("gray") {
         hull() {
@@ -86,28 +88,37 @@ module pcbContour() {
 module case(tentA=0,right=0,trrs=1) {
     bottomW = 2.5;
     sideW = 4;
-    edgeH = 4;
+    edgeH = 4.5;
     overH = 2.5;
     delta = 0.5;
+
+    translate([0,0,0]) {
+    }
 
     mirror(right==0 ? [0,0,0] : [1,0,0])
     tent(tentA)
     difference() {
         counterTent(tentA)
-            minkowski() {
-                union() {
-                    pcbContour();
-                    translate([-50,0,0.8]) cube([80,14,1.6], center=true);
-                    //translate([-0.545,90.53,0.8]) cube([10,10,1.6], center=true);
-                }
-                translate([0,0,-(edgeH + bottomW)])
-                    hull() {
-                        translate([0,0,2])
-                        cylinder(r=delta+sideW, h=edgeH + bottomW + overH - 4);
-                        cylinder(r=delta+sideW - 2, h=edgeH + bottomW + overH);
-                        cylinder(r=delta+sideW - 1, h=edgeH + bottomW + overH);
+            union() {
+                minkowski() {
+                    union() {
+                        pcbContour();
+                        translate([-50,0,0.8]) cube([80,14,1.6], center=true);
+                        if (trrs==1) {
+                            translate([-0.545,90.53,0.8])
+                                cube([10,10,1.6], center=true);
+                        }
                     }
-            };
+                    translate([0,0,-(edgeH + bottomW)])
+                        hull() {
+                            translate([0,0,2])
+                                cylinder(r=delta+sideW, h=edgeH + bottomW + overH - 4);
+                            cylinder(r=delta+sideW - 2, h=edgeH + bottomW + overH);
+                            cylinder(r=delta+sideW - 1, h=edgeH + bottomW + overH);
+                        }
+                };
+            }
+
         m3hole(p[0]);
         m3hole(p[1]);
         m3hole(p[2]);
@@ -241,14 +252,18 @@ module case(tentA=0,right=0,trrs=1) {
             if(trrs==1) {
                 hull() {
                     for(t=[[0,6.5,-5.3/2],[0,6.5,-5.3/2-6]]) {
-                        translate(t) rotate([270,0,0]) cylinder(d=8,h=10);
+                        translate(t) rotate([270,0,0]) cylinder(d=8.8,h=10);
                     }
                 }
             }
         }
 
+
+
         // outer bounds
+        color("white", 0)
         translate([0,0,100/2+4.1]) cube([1000,1000,100],center=true);
+        color("white", 0)
         untent(tentA) translate([0,0,-100/2-6.5]) cube([1000,1000,100],center=true);
 
         color("red")
@@ -261,6 +276,71 @@ module case(tentA=0,right=0,trrs=1) {
                     size = 6.5,
                     halign = "center");
 
+    }
+}
+
+module caseWithLipo(right=0, switch=1) {
+
+    /*
+     place for a lipo LP502245
+     with e.g. 480mAh
+       | W | 22.5mm |
+       | H |  5.4mm |
+       | L |   47mm |
+     */
+
+    tentA=2;
+    depth=-2.9;
+    batteryPos=[-22,24,depth];
+    difference() {
+        case(tentA=tentA, right=right, trrs=0);
+        mirror(right==0 ? [0,0,0] : [1,0,0]) {
+            hull() {
+                translate(batteryPos)
+                    cube([47+1, 22.5+1, 5.4], center=true);
+                translate(batteryPos + [0,0,2])
+                    cube([47+1, 22.5+1, 5.4], center=true);
+                translate(batteryPos + [-3,0,3])
+                    cube([47+1, 22.5+1, 5.4], center=true);
+            }
+            // lipo
+            union() {
+                hull() {
+                    translate(batteryPos)
+                        cube([47+1, 22.5+1, 5.4], center=true);
+                    translate(batteryPos)
+                        cube([47+3, 22.5+1, 5.4-2], center=true);
+                }
+                color("red")
+                    translate(batteryPos)
+                        translate([0,0,-3])
+                        linear_extrude(0.31)
+                        mirror(right==0 ? [0,0,0] : [1,0,0])
+                        text("LP502245",
+                                font = "Roboto Condensed:style=bold",
+                                size = 6.5,
+                                halign = "center");
+
+                translate([-48,20,depth+0.5]) cube([40,10,5.4],center=true);
+                hull() {
+                    translate([-62,36,depth+1]) cube([12,50,2.4],center=true);
+                    translate([-62,36,depth+1]) cube([8,47,5.4],center=true);
+                }
+                translate([-76,15,depth+1]) cube([40,30,5.4],center=true);
+            }
+            // switch
+            if (switch==1) {
+                color("pink")
+                    translate([-62.5,-3,-1]) {
+                        hull() {
+                            cube([13,14,7],center=true);
+                            translate([0,0,2]) cube([13,8,7],center=true);
+                        }
+                        translate([0,-7,0])
+                            cube([9,14,6],center=true);
+                    }
+            }
+        }
     }
 }
 
@@ -318,18 +398,30 @@ if($preview) {
     }
     translate([200,-100,0])
         intersection() {
-            case();
+            caseWithLipo();
             union() {
+                translate([-10,0,0])
                 cube([100,100,100],center=true);
                 translate([-100,100,0])
                     cube([100,100,100],center=true);
             }
         }
-    /* translate([200,100,0]) case(tentA=12); */
+    translate([200,100,0]) {
+        caseWithLipo();
+        color("gray")
+            translate([-22,24,-2.9]) cube([47, 22.5, 5.4], center=true);
+    }
+    translate([200,300,0]) {
+        caseWithLipo(right=1);
+    }
 
     translate([-200,-100,0]) {
         case();
         color("green", .7) import("../assets/redox_rev1.stl");
+
+        /* translate([24,51,-2.6]) */
+        /*     rotate([0,0,90]) */
+        /*     L472878(); */
     }
 
     translate([-400,140,0]) {
