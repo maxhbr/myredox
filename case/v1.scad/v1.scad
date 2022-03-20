@@ -6,6 +6,8 @@ var_type="caseWithLipo"; // ["case", "caseWithLipo", "caseWithLipoExt"]
 var_right=false; // [true,false]
 // incude trrs
 var_trrs=false; // [true,false]
+// whether to keep space for printed switchpalate
+var_printedPlate=false; // [true,false]
 /* [case] */
 // tening, if no lipo
 var_tentA=0; //[0:1:45]
@@ -474,7 +476,16 @@ module helpview(type=0) {
 }
 
 if(var_type=="case"){
-    case(tentA=var_tentA,trrs=var_trrs,switch=false);
+    case(tentA=var_tentA,trrs=var_trrs,switch=false,printedPlate=var_printedPlate);
+
+    translate([200,0,0])
+        if ($preview) {
+            color("gray")
+                mirror(var_right == false ? [0,0,0] : [1,0,0])
+                tent(tentA=var_tentA)
+                translate([57.25,32.25,-2.4 +5])
+                import("../../submodules/Redox-neodox-Case/redox_rev1.0/Neodox_rev1.0-Top-Left_0.12.stl");
+        }
 }else if(var_type=="caseWithLipoExt"){
     caseWithLipoExt(right=var_right,switch=var_switch);
 }else if(var_type=="caseWithLipo") {
@@ -484,12 +495,6 @@ if(var_type=="case"){
             caseWithLipo(right=var_right,trrs=var_trrs,switch=var_switch);
 
             color("gray") translate([-22,24,-2.9]) cube([47, 22.5, 5.4], center=true);
-
-            color("gray")
-                mirror(var_right == false ? [0,0,0] : [1,0,0])
-                tent(tentA=2.5)
-                translate([57.25,32.25,-2.4 +5])
-                import("../../submodules/Redox-neodox-Case/redox_rev1.0/Neodox_rev1.0-Top-Left_0.12.stl");
 
             mirror(var_right == false ? [0,0,0] : [1,0,0])
                 tent(tentA=2.5)
