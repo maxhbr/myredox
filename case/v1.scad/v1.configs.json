@@ -5,10 +5,10 @@
             "var_switch": "true",
             "var_tentA": "0",
             "var_trrs": "false",
-            "var_type": "case"
+            "var_type": "caseWithLipo"
         },
         "case_right": {
-            "var_right": "right",
+            "var_right": "true",
             "var_switch": "true",
             "var_tentA": "0",
             "var_trrs": "false",
@@ -22,14 +22,26 @@
             "var_type": "caseWithLipo"
         },
         "caseWithLipo_right": {
-            "var_right": "right",
+            "var_right": "true",
             "var_switch": "true",
             "var_tentA": "0",
             "var_trrs": "false",
             "var_type": "caseWithLipo"
+        },
+        "test_caseWithLipo": {
+            "var_right": "false",
+            "var_switch": "false",
+            "var_tentA": "0",
+            "var_trrs": "true",
+            "var_type": "caseWithLipo"
+        },
+        "test_caseWithLipo_right": {
+            "var_right": "true",
+            "var_switch": "false",
+            "var_tentA": "0",
+            "var_trrs": "true",
+            "var_type": "caseWithLipo"
         }
     },
-    "fileFormatVersion": "1",
-    "parameterSets": "",
-    "parameterSets": ""
+    "fileFormatVersion": "1"
 }

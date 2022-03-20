@@ -1,7 +1,7 @@
 include <../libs/Round-Anything/polyround.scad>;
 
 // include lipo
-var_type="caseWithLipo"; // ["case", "caseWithLipo"]
+var_type="caseWithLipo"; // ["case", "caseWithLipo", "caseWithLipoExt"]
 // which side
 var_right=false; // [true,false]
 // incude trrs
@@ -215,10 +215,6 @@ module case(tentA=0,right=false,trrs=true,switch=false,printedPlate=false,fill=t
                         for(t=[[[-18*cos(30),18*sin(30),0],[7*cos(30),-7*sin(30),0]]
                               ,[p[1],p[1]+[0,100,0]]
                               ,[[-72,37,-1],[-72,56,-1]]
-                              ,[p[2],p[2]+[-33,0,0],p[2]+[-33,4,1],p[2]+[0,4,1]]
-                              ,[p[3],p[3]+[23,0,0],p[3]+[23,6,1],p[3]+[0,6,1]]
-                              ,[[-135,0,0],[-135,100,0],[-134,0,0],[-133,100,0]]
-                              ,[[-111+30,-9+2,0] ,[-111-20,-9+2,0],[-111+30,-9,0] ,[-111-20,-9,0]]
                               ,[[-52,37,-1],[-52+30,37,-1]]
                             ]) {
                             hull(){
@@ -226,6 +222,18 @@ module case(tentA=0,right=false,trrs=true,switch=false,printedPlate=false,fill=t
                                     translate(tt+[0,0,-6]) cylinder(d=3, h=3);
                                     translate(tt+[0,0,-6]) cylinder(d=2, h=4);
                                 }
+                            }
+                        }
+                    }
+                    for(t=[[p[2],p[2]+[-33,0,0],p[2]+[-33,4,1],p[2]+[0,4,1]]
+                            ,[p[3],p[3]+[23,0,0],p[3]+[23,6,1],p[3]+[0,6,1]]
+                            ,[[-135,0,0],[-135,100,0],[-134,0,0],[-133,100,0]]
+                            ,[[-111+30,-9+2,0] ,[-111-20,-9+2,0],[-111+30,-9,0] ,[-111-20,-9,0]]
+                        ]) {
+                        hull(){
+                            for(tt=t){
+                                translate(tt+[0,0,-6]) cylinder(d=3, h=3);
+                                translate(tt+[0,0,-6]) cylinder(d=2, h=4);
                             }
                         }
                     }
@@ -458,10 +466,12 @@ module helpview(type=0) {
         }
 }
 
-if(var_type=="caseWithLipo") {
-    caseWithLipo(right=var_right,trrs=var_trrs,switch=var_switch);
-}else{
+if(var_type=="case"){
     case(tentA=var_tentA,trrs=var_trrs,switch=false);
+}else if(var_type=="caseWithLipoExt"){
+    caseWithLipoExt(right=var_right,switch=var_switch);
+}else if(var_type=="caseWithLipo") {
+    caseWithLipo(right=var_right,trrs=var_trrs,switch=var_switch);
 }
 
 /*
