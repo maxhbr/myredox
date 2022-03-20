@@ -128,94 +128,108 @@ module case(tentA=0,right=false,trrs=true,switch=false,printedPlate=false,fill=t
     delta = 0.5;
 
     mirror(right == false ? [0,0,0] : [1,0,0])
-    tent(tentA)
     difference() {
-        counterTent(tentA)
-            render(convexity = 2)
-            minkowski() {
-                union() {
-                    pcbContour(fill=fill);
-                    children();
-                }
-                translate([0,0,-(edgeH + bottomW)])
-                    minkowskier( r=delta+sideW, h=edgeH + bottomW + overH);
-            };
-
-        m3hole(p[0]);
-        m3hole(p[1]);
-        m3hole(p[2]);
-        m3hole(p[3]);
+        tent(tentA)
         difference() {
-            render(convexity = 2)
+            counterTent(tentA)
+                render(convexity = 2)
                 minkowski() {
-                    pcbContour();
-                    translate([0,0,-edgeH])
-                        cylinder(r=delta, h=edgeH + 0.5 + overH);
+                    union() {
+                        pcbContour(fill=fill);
+                        children();
+                    }
+                    translate([0,0,-(edgeH + bottomW)])
+                        minkowskier( r=delta+sideW, h=edgeH + bottomW + overH);
                 };
 
-            m3base(p[0], 6);
-            m3base(p[1], 6);
-            hull() {
-                m3base(p[2], 6);
-                translate(p[2] + [0,6,-3])
-                    cube([8,1,6],center=true);
-            }
-            hull() {
-                m3base(p[3], 6);
-                translate(p[3] + [-5,5,-3])
-                    rotate([0,0,45])
-                    cube([8,0.5,6],center=true);
-            }
-            //supports
-            color("red")
-                union() {
-                    for(t=[[-50,-5,0]
-                          ,[-111,-9,0]
-                          ,[-130,-9,0]
-                          ,[-76,97,0]
-                          ,[-48.6,97,0]
-                          ,[6,28,0]
-                          ,[-135,50,0]
-                          ,[-134,8,0]
-                          ,[-sin(30)*26,-cos(30)*26,0]
-                          ]) {
-                        translate([0,0,-6]+t)
-                            hull() {
-                                cylinder(d=7,h=6);
-                                cylinder(d=8,h=5);
-                            }
-                    }
-                    for(t=[[[-52,37,0],0]
-                          ,[[-72,37,0],0]
-                          ,[[-72,56,0],0]
-                          ,[p[1]+[0,55,0],0]
-                          ,[[-10,55,0],120]
-                          ,[[-18*cos(30),18*sin(30),0],60]
-                          ,[[-90.5,73,0],0]
-                          ,[[-33.5,75,0],0]
-                          ]) {
-                        translate(t[0])
-                            rotate([0,0,t[1]])
-                            union() {
+            m3hole(p[0]);
+            m3hole(p[1]);
+            m3hole(p[2]);
+            m3hole(p[3]);
+            difference() {
+                render(convexity = 2)
+                    minkowski() {
+                        pcbContour();
+                        translate([0,0,-edgeH])
+                            cylinder(r=delta, h=edgeH + 0.5 + overH);
+                    };
+
+                m3base(p[0], 6);
+                m3base(p[1], 6);
+                hull() {
+                    m3base(p[2], 6);
+                    translate(p[2] + [0,6,-3])
+                        cube([8,1,6],center=true);
+                }
+                hull() {
+                    m3base(p[3], 6);
+                    translate(p[3] + [-5,5,-3])
+                        rotate([0,0,45])
+                        cube([8,0.5,6],center=true);
+                }
+                //supports
+                color("red")
+                    union() {
+                        for(t=[[-50,-5,0]
+                              ,[-111,-9,0]
+                              ,[-130,-9,0]
+                              ,[-76,97,0]
+                              ,[-48.6,97,0]
+                              ,[6,28,0]
+                              ,[-135,50,0]
+                              ,[-134,8,0]
+                              ,[-sin(30)*26,-cos(30)*26,0]
+                              ]) {
+                            translate([0,0,-6]+t)
                                 hull() {
-                                    translate([-1,-2.5,-6])
-                                        cube([2,5,6]);
-                                    translate([-1.5,-3,-6])
-                                        cube([3,6,5]);
+                                    cylinder(d=7,h=6);
+                                    cylinder(d=8,h=5);
                                 }
-                                hull() {
-                                    translate([-1.5,-3,-6])
-                                        cube([3,6,5]);
-                                translate([0,0,-6])
-                                    cylinder(d1=9,d2=3,h=5);
+                        }
+                        for(t=[[[-52,37,0],0]
+                              ,[[-72,37,0],0]
+                              ,[[-72,56,0],0]
+                              ,[p[1]+[0,55,0],0]
+                              ,[[-10,55,0],120]
+                              ,[[-18*cos(30),18*sin(30),0],60]
+                              ,[[-90.5,73,0],0]
+                              ,[[-33.5,75,0],0]
+                              ]) {
+                            translate(t[0])
+                                rotate([0,0,t[1]])
+                                union() {
+                                    hull() {
+                                        translate([-1,-2.5,-6])
+                                            cube([2,5,6]);
+                                        translate([-1.5,-3,-6])
+                                            cube([3,6,5]);
+                                    }
+                                    hull() {
+                                        translate([-1.5,-3,-6])
+                                            cube([3,6,5]);
+                                    translate([0,0,-6])
+                                        cylinder(d1=9,d2=3,h=5);
+                                    }
+                                }
+                        }
+                        if(tentA==0) {
+                            for(t=[[[-18*cos(30),18*sin(30),0],[7*cos(30),-7*sin(30),0]]
+                                  ,[p[1],p[1]+[0,100,0]]
+                                  ,[[-72,37,-1],[-72,56,-1]]
+                                  ,[[-52,37,-1],[-52+30,37,-1]]
+                                ]) {
+                                hull(){
+                                    for(tt=t){
+                                        translate(tt+[0,0,-6]) cylinder(d=3, h=3);
+                                        translate(tt+[0,0,-6]) cylinder(d=2, h=4);
+                                    }
                                 }
                             }
-                    }
-                    if(tentA==0) {
-                        for(t=[[[-18*cos(30),18*sin(30),0],[7*cos(30),-7*sin(30),0]]
-                              ,[p[1],p[1]+[0,100,0]]
-                              ,[[-72,37,-1],[-72,56,-1]]
-                              ,[[-52,37,-1],[-52+30,37,-1]]
+                        }
+                        for(t=[[p[2],p[2]+[-33,0,0],p[2]+[-33,4,1],p[2]+[0,4,1]]
+                                ,[p[3],p[3]+[23,0,0],p[3]+[23,6,1],p[3]+[0,6,1]]
+                                ,[[-135,0,0],[-135,100,0],[-134,0,0],[-133,100,0]]
+                                ,[[-111+30,-9+2,0] ,[-111-20,-9+2,0],[-111+30,-9,0] ,[-111-20,-9,0]]
                             ]) {
                             hull(){
                                 for(tt=t){
@@ -225,111 +239,104 @@ module case(tentA=0,right=false,trrs=true,switch=false,printedPlate=false,fill=t
                             }
                         }
                     }
-                    for(t=[[p[2],p[2]+[-33,0,0],p[2]+[-33,4,1],p[2]+[0,4,1]]
-                            ,[p[3],p[3]+[23,0,0],p[3]+[23,6,1],p[3]+[0,6,1]]
-                            ,[[-135,0,0],[-135,100,0],[-134,0,0],[-133,100,0]]
-                            ,[[-111+30,-9+2,0] ,[-111-20,-9+2,0],[-111+30,-9,0] ,[-111-20,-9,0]]
-                        ]) {
-                        hull(){
-                            for(tt=t){
-                                translate(tt+[0,0,-6]) cylinder(d=3, h=3);
-                                translate(tt+[0,0,-6]) cylinder(d=2, h=4);
-                            }
+            }
+
+            // MCU
+            color("blue")
+            translate([-62.25, 78.2,-3]) {
+                difference() {
+                    hull() {
+                        translate([0,1,0.25]) cube([19,35+2,5.5],center=true);
+                        translate([0,1,0]) cube([18,35,6],center=true);
+                        translate([0,16,6])
+                            translate([0,1,0]) cube([19,1,6],center=true);
+                    }
+                    if(right==false){
+                        translate([0,1,-5.5]) cube([11,35+2,6],center=true);
+                    }
+                }
+                translate([0,17,6])
+                translate([0,1,0]) cube([19,1,6],center=true);
+
+                translate(right==false ? [0,27,0] : [0,27,-0.5])
+                    hull() {
+                        translate([-2.5,0,0]) rotate([90,0,0]) cylinder(d=7.5, h=10);
+                        translate([2.5,0,0]) rotate([90,0,0]) cylinder(d=7.5, h=10);
+                        translate([-2.5,0,-6]) rotate([90,0,0]) cylinder(d=7.5, h=10);
+                        translate([2.5,0,-6]) rotate([90,0,0]) cylinder(d=7.5, h=10);
+                    }
+            }
+            // reset switch
+            color("blue")
+            translate([-127.635+32.35,90.297+0.6,-2.5]) {
+                hull() {
+                    cube([6.5+3,6.5+3,3], center=true);
+                    cube([6.5+2,6.5+2,5], center=true);
+                }
+                cylinder(d=3,h=20, center=true);
+            }
+            // trrs jack
+            color("blue")
+            translate(p[2] + [0,-4.81,0] + (right==true ? [9,0,0] : [14,0,0])) {
+                hull() {
+                    translate([0,0,-1.5-3]) cube([5,17.26,3], center=true);
+                    translate([0,-1,-1.5-3]) cube([7,16.26,3], center=true);
+                    translate([0,-1,-0.5-3]) cube([9,15.26,3], center=true);
+                }
+                if(trrs) {
+                    hull() {
+                        for(t=[[0,6.5,-5.3/2],
+                               (tentA < 2 ? [0,6.5,-5.3/2-6] : [0,6.5,-5.3/2-1])]) {
+                            translate(t) rotate([270,0,0]) cylinder(d=8.8,h=10);
                         }
                     }
                 }
+            }
+
+            // outer bounds
+            color("white", 0)
+                translate([0,0,100/2+1.6+overH]) cube([1000,1000,100],center=true);
+
+            if (!$preview)
+                color("red")
+                translate([-120,50,-edgeH-0.3])
+                rotate([0,0,90])
+                linear_extrude(0.31)
+                mirror(right==false ? [0,0,0] : [1,0,0])
+                text("github.com/maxhbr",
+                        font = "Roboto Condensed:style=bold",
+                        size = 6.5,
+                        halign = "center");
+
         }
 
-        // MCU
-        color("blue")
-        translate([-62.25, 78.2,-3]) {
-            difference() {
-                hull() {
-                    translate([0,1,0.25]) cube([19,35+2,5.5],center=true);
-                    translate([0,1,0]) cube([18,35,6],center=true);
-                    translate([0,16,6])
-                        translate([0,1,0]) cube([19,1,6],center=true);
-                }
-                if(right==false){
-                    translate([0,1,-5.5]) cube([11,35+2,6],center=true);
-                }
-            }
-            translate([0,17,6])
-            translate([0,1,0]) cube([19,1,6],center=true);
-
-            translate(right==false ? [0,27,0] : [0,27,-0.5])
-                hull() {
-                    translate([-2.5,0,0]) rotate([90,0,0]) cylinder(d=7.5, h=10);
-                    translate([2.5,0,0]) rotate([90,0,0]) cylinder(d=7.5, h=10);
-                    translate([-2.5,0,-6]) rotate([90,0,0]) cylinder(d=7.5, h=10);
-                    translate([2.5,0,-6]) rotate([90,0,0]) cylinder(d=7.5, h=10);
-                }
-        }
-        // reset switch
-        color("blue")
-        translate([-127.635+32.35,90.297+0.6,-2.5]) {
-            hull() {
-                cube([6.5+3,6.5+3,3], center=true);
-                cube([6.5+2,6.5+2,5], center=true);
-            }
-            cylinder(d=3,h=20, center=true);
-        }
-        // trrs jack
-        color("blue")
-        translate(p[2] + [0,-4.81,0] + (right==true ? [9,0,0] : [14,0,0])) {
-            hull() {
-                translate([0,0,-1.5-3]) cube([5,17.26,3], center=true);
-                translate([0,-1,-1.5-3]) cube([7,16.26,3], center=true);
-                translate([0,-1,-0.5-3]) cube([9,15.26,3], center=true);
-            }
-            if(trrs) {
-                hull() {
-                    for(t=[[0,6.5,-5.3/2],
-                           (tentA < 2 ? [0,6.5,-5.3/2-6] : [0,6.5,-5.3/2-1])]) {
-                        translate(t) rotate([270,0,0]) cylinder(d=8.8,h=10);
+        if (switch) {
+            color("pink")
+                translate([-61.5,-2.5,-1.5]) {
+                    translate([0,-3.5,0])
+                        cube([13,7,7],center=true);
+                    translate([0,1.7,0]) {
+                        hull() {
+                            translate([0,1,0])
+                            cube([13,10,7],center=true);
+                            translate([0,0,3]) cube([13,1,7],center=true);
+                        }
                     }
+                    translate([0,-7,0])
+                        cube([9,14,5],center=true);
                 }
-            }
         }
 
-
+        // tenting
+        /*
+        for(t=[[4,-7.5,-6.5],[4,74,-6.5]])
+            translate(t)
+            cylinder(h=5.7,d=4+0.2);
+        */
 
         // outer bounds
-        color("white", 0)
-            translate([0,0,100/2+1.6+overH]) cube([1000,1000,100],center=true);
         color("white", 0.1)
-            untent(tentA)
             translate([0,0,-100/2-6.5]) cube([1000,1000,100],center=true);
-
-        untent(tentA)
-            if (switch) {
-                color("pink")
-                    translate([-61.5,-2.5,-1.5]) {
-                        translate([0,-3.5,0])
-                            cube([13,7,7],center=true);
-                        translate([0,1.7,0]) {
-                            hull() {
-                                translate([0,1,0])
-                                cube([13,10,7],center=true);
-                                translate([0,0,3]) cube([13,1,7],center=true);
-                            }
-                        }
-                        translate([0,-7,0])
-                            cube([9,14,5],center=true);
-                    }
-            }
-
-        if (!$preview)
-            color("red")
-            translate([-120,50,-edgeH-0.3])
-            rotate([0,0,90])
-            linear_extrude(0.31)
-            mirror(right==false ? [0,0,0] : [1,0,0])
-            text("github.com/maxhbr",
-                    font = "Roboto Condensed:style=bold",
-                    size = 6.5,
-                    halign = "center");
-
     }
 }
 
