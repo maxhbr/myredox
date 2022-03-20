@@ -479,26 +479,23 @@ if(var_type=="case"){
     caseWithLipoExt(right=var_right,switch=var_switch);
 }else if(var_type=="caseWithLipo") {
     caseWithLipo(right=var_right,trrs=var_trrs,switch=var_switch);
+    translate([200,0,0])
+        if ($preview) {
+            caseWithLipo(right=var_right,trrs=var_trrs,switch=var_switch);
+
+            color("gray") translate([-22,24,-2.9]) cube([47, 22.5, 5.4], center=true);
+
+            color("gray")
+                mirror(var_right == false ? [0,0,0] : [1,0,0])
+                tent(tentA=2.5)
+                translate([57.25,32.25,-2.4 +5])
+                import("../../submodules/Redox-neodox-Case/redox_rev1.0/Neodox_rev1.0-Top-Left_0.12.stl");
+
+            mirror(var_right == false ? [0,0,0] : [1,0,0])
+                tent(tentA=2.5)
+                color("green", .7) import("../assets/redox_rev1.stl");
+        }
 }
-
-/*
-helpview(type=0) {
-    right=false;
-    caseWithLipo(right=right);
-
-    color("gray") translate([-22,24,-2.9]) cube([47, 22.5, 5.4], center=true);
-
-    color("gray")
-        mirror(right==0 ? [0,0,0] : [1,0,0])
-        tent(tentA=2.5)
-        translate([57.25,32.25,-2.4 +5])
-        import("../../submodules/Redox-neodox-Case/redox_rev1.0/Neodox_rev1.0-Top-Left_0.12.stl");
-
-    mirror(right==0 ? [0,0,0] : [1,0,0])
-        tent(tentA=2.5)
-        color("green", .7) import("../assets/redox_rev1.stl");
-}
-*/
 
 
 /* if ($preview) { */
