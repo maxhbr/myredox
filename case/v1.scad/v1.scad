@@ -339,7 +339,7 @@ module case(tentA=0,right=false,trrs=true,switch=false,printedPlate=false,fill=t
                                     translate([0,-2.7,-5])
                                         cube([6,0.6,10],center=true);
                                     translate([0,1.5,-3])
-                                        cube([6,3,2],center=true);
+                                        cube([6.6,4,2],center=true);
                                 }
                         }
                         translate([0,-4.6+7.2,0])
