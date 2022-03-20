@@ -314,18 +314,42 @@ module case(tentA=0,right=false,trrs=true,switch=false,printedPlate=false,fill=t
 
         if (switch) {
             color("pink")
-                translate([-61.5,-2.5,-1.5]) {
-                    translate([0,-3.5,0])
-                        cube([13,7,7],center=true);
-                    translate([0,1.7,0]) {
-                        hull() {
-                            translate([0,1,0])
-                            cube([13,10,7],center=true);
-                            translate([0,0,3]) cube([13,1,7],center=true);
+                translate([-61.5,-3,-1.5]) {
+                    difference() {
+                        union() {
+                            translate([0,-3.5,0])
+                                cube([13,7,7],center=true);
+                            translate([0,1.7,0]) {
+                                hull() {
+                                    translate([0,1,0])
+                                    cube([13,10,7],center=true);
+                                    translate([0,0,3]) cube([13,1,7],center=true);
+                                }
+                            }
+                            translate([0,-7,0])
+                                cube([9,14,5],center=true);
+                            // latch
+                            translate([0,-4.6+7.2,0])
+                                union() {
+                                    for(m=[[1,0,0],[0,0,0]]) {
+                                        mirror(m)
+                                            translate([3,0,-5])
+                                            cube([0.6,6,10],center=true);
+                                    }
+                                    translate([0,-2.7,-5])
+                                        cube([6,0.6,10],center=true);
+                                    translate([0,1.5,-3])
+                                        cube([6,3,2],center=true);
+                                }
                         }
+                        translate([0,-4.6+7.2,0])
+                            hull() {
+                                translate([0,-1.4,-4])
+                                    cube([5.4,2,2],center=true);
+                                translate([0,-1.4,-4])
+                                    cube([4.4,1.5,3],center=true);
+                            }
                     }
-                    translate([0,-7,0])
-                        cube([9,14,5],center=true);
                 }
         }
 
