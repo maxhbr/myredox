@@ -518,11 +518,11 @@ if(var_type=="case"){
         if ($preview) {
             caseWithLipo(right=var_right,trrs=var_trrs,switch=var_switch);
 
-            color("gray") translate([-22,24,-2.9]) cube([47, 22.5, 5.4], center=true);
-
-            mirror(var_right == false ? [0,0,0] : [1,0,0])
+            mirror(var_right == false ? [0,0,0] : [1,0,0]) {
+                color("gray") translate([-22,24,-2.9]) cube([47, 22.5, 5.4], center=true);
                 tent(tentA=2.5)
-                color("green", .7) import("../assets/redox_rev1.stl");
+                    color("green", .7) import("../assets/redox_rev1.stl");
+            }
         }
 }
 
