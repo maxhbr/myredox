@@ -41,6 +41,13 @@
             "var_tentA": "0",
             "var_trrs": "true",
             "var_type": "caseWithLipo"
+        },
+        "tentKit": {
+            "var_right": "false",
+            "var_switch": "false",
+            "var_tentA": "0",
+            "var_trrs": "true",
+            "var_type": "tentKit"
         }
     },
     "fileFormatVersion": "1"

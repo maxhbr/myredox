@@ -1,7 +1,7 @@
 include <../libs/Round-Anything/polyround.scad>;
 
 // include lipo
-var_type="caseWithLipo"; // ["case", "caseWithLipo", "caseWithLipoExt"]
+var_type="caseWithLipo"; // ["case", "caseWithLipo", "caseWithLipoExt", "tentKit"]
 // which side
 var_right=false; // [true,false]
 // incude trrs
@@ -19,6 +19,7 @@ var_switch=true; // [true,false]
 /* [hidden] */
 
 p = [[0+0,0,0], [-110.49,15.287,0], [-17.145,92.202,0], [-127.635,90.297,0]];
+tP=[[4,-7.5,0], [-14,40,0],[4,95,0]];
 
 tentP=-p[3] + [0,0,0];
 
@@ -128,8 +129,13 @@ module minkowskier(r,h) {
     }
 }
 
-module
-case(tentA=0,right=false,trrs=true,switch=false,printedPlate=false,fill=true,tentingScrews=false) {
+module case(tentA=0,
+        right=false,
+        trrs=true,
+        switch=false,
+        printedPlate=false,
+        fill=true,
+        tentingScrews=true) {
     bottomW = 2.5;
     sideW = 4;
     edgeH = 4.5;
@@ -362,8 +368,8 @@ case(tentA=0,right=false,trrs=true,switch=false,printedPlate=false,fill=true,ten
 
         if (tentingScrews && tentA > 2.4 && tentA < 5) {
             // tenting
-            for(t=[[4,-7.5,-6.5],[4,95,-6.5]])
-                translate(t)
+            for(t=tP)
+                translate(t + [0,0,-6.5])
                 cylinder(h=5.7,d=4+0.2);
         }
 
@@ -431,17 +437,34 @@ module caseWithLipo(right=false, switch=true, trrs=false) {
     }
 }
 
-module tentingKit(aTentA=20) {
+module tentingKit(aTentA=30) {
     /* intersection() { */
     /*     mirror([0,0,1]) */
     /*         linear_extrude(height = 90, convexity = 10, scale=1) */
     /*         projection(cut = false) pcbContour(fill=true); */
     /* } */
     difference() {
-        translate([0,0,-8])
+        translate([0,0,-8]) {
             render(convexity = 2)
-            counterTent(aTentA,tentP=tentP+[-2,0,0])
-            render(convexity = 2)
+                counterTent(aTentA,tentP=tentP+[-2,0,0])
+                minkowski() {
+                    difference() {
+                        intersection() {
+                            pcbContour(fill=true);
+                            translate([-5,0,0])
+                                cube([20,200,20],center=true);
+                        }
+                        translate([-5,30,0])
+                            cube([20,60,20],center=true);
+                        for(t=tP) {
+                            translate(t)
+                                rotate([180,0,0])
+                                cylinder(h=100,d=20,center=true);
+                        }
+                    }
+                    translate([0,0,-5])
+                        minkowskier( r=4.5, h=5);
+                };
             minkowski() {
                 intersection() {
                     pcbContour(fill=true);
@@ -451,13 +474,11 @@ module tentingKit(aTentA=20) {
                 translate([0,0,-5])
                     minkowskier( r=4.5, h=5);
             };
-        for(t=[[4,-7.5,-6.5],[4,95,-6.5]]) {
+        }
+        for(t=tP) {
             translate(t)
                 rotate([180,0,0])
-                cylinder(h=100,d=3.4);
-            translate(t+[0,0,-10])
-                rotate([180,0,0])
-                cylinder(h=100,d=15);
+                cylinder(h=20,d=3.4);
         }
     }
 }
@@ -554,6 +575,7 @@ if(var_type=="case"){
     caseWithLipo(right=var_right,trrs=var_trrs,switch=var_switch);
 
     translate([200,0,0])
+        tent(tentA=30)
         if ($preview) {
             caseWithLipo(right=var_right,trrs=var_trrs,switch=var_switch);
 
@@ -561,10 +583,27 @@ if(var_type=="case"){
                 color("gray") translate([-22,24,-2.9]) cube([47, 22.5, 5.4], center=true);
                 tent(tentA=2.5)
                     color("green", .7) import("../assets/redox_rev1.stl");
-                /* color("red") */
-                /*     tentingKit(); */
+                color("red")
+                    tentingKit();
             }
         }
+}else if(var_type=="tentKit") {
+    tentingKit();
+
+    if ($preview) {
+        color("red")
+            caseWithLipo(right=false);
+    }
+
+    translate([70,0,0]) {
+        mirror([1,0,0])
+            tentingKit();
+
+        if ($preview) {
+            color("red")
+                caseWithLipo(right=true);
+        }
+    }
 }
 
 
