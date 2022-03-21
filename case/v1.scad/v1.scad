@@ -370,7 +370,7 @@ module case(tentA=0,
             // tenting
             for(t=tP)
                 translate(t + [0,0,-6.5])
-                cylinder(h=5.7,d=4+0.2);
+                cylinder(h=7,d=4+0.2);
         }
 
         // outer bounds
@@ -474,6 +474,20 @@ module tentingKit(aTentA=30) {
                 translate([0,0,-5])
                     minkowskier( r=4.5, h=5);
             };
+            tent(tentA=-aTentA,tentP=tentP+[-2,0,0])
+                minkowski() {
+                        difference() {
+                    intersection() {
+                        pcbContour(fill=true);
+                        translate([-5,0,0])
+                            cube([20,200,20],center=true);
+                    }
+                            translate([-5,35,0])
+                                cube([20,60,20],center=true);
+                        }
+                    translate([0,0,-5])
+                        minkowskier(r=4.5, h=5);
+                };
         }
         for(t=tP) {
             translate(t)
