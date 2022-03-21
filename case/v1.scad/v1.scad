@@ -454,7 +454,7 @@ module tentingKit(aTentA=30) {
                             translate([-5,0,0])
                                 cube([20,200,20],center=true);
                         }
-                        translate([-5,30,0])
+                        translate([-5,35,0])
                             cube([20,60,20],center=true);
                         for(t=tP) {
                             translate(t)
@@ -588,20 +588,22 @@ if(var_type=="case"){
             }
         }
 }else if(var_type=="tentKit") {
-    tentingKit();
-
-    if ($preview) {
-        color("red")
-            caseWithLipo(right=false);
-    }
-
-    translate([70,0,0]) {
-        mirror([1,0,0])
-            tentingKit();
+    mirror($preview ? [0,0,0] : [0,0,1]) {
+        tentingKit();
 
         if ($preview) {
             color("red")
-                caseWithLipo(right=true);
+                caseWithLipo(right=false);
+        }
+
+        translate([70,0,0]) {
+            mirror([1,0,0])
+                tentingKit();
+
+            if ($preview) {
+                color("red")
+                    caseWithLipo(right=true);
+            }
         }
     }
 }
