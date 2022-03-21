@@ -22,7 +22,7 @@ p = [[0+0,0,0], [-110.49,15.287,0], [-17.145,92.202,0], [-127.635,90.297,0]];
 
 tentP=-p[3] + [0,0,0];
 
-module tent(tentA=0) {
+module tent(tentA=0,tentP=tentP) {
     if (tentA==0) {
         children();
     } else {
@@ -32,7 +32,7 @@ module tent(tentA=0) {
         children();
     }
 }
-module untent(tentA=0) {
+module untent(tentA=0,tentP=tentP) {
     if (tentA==0) {
         children();
     } else {
@@ -43,13 +43,15 @@ module untent(tentA=0) {
     }
 }
 
-module counterTent(tentA=0) {
+module counterTent(tentA=0,tentP=tentP) {
     if (tentA==0) {
         children();
     } else {
-        res=$preview ? 1 : 15;
+        highRes=max([15, ceil(tentA) * 2]);
+        lowRes=max([1,ceil(tentA/3)]);
+        res=$preview ? lowRes : highRes;
         for (r=[0:res]) {
-            untent(tentA * (r/res)) {
+            untent(tentA * (r/res),tentP=tentP) {
                 if (r == res) {
                     children();
                 } else {
@@ -117,12 +119,17 @@ module pcbContour(fill=false) {
 
 module minkowskier(r,h) {
     hull() {
-        translate([0,0,2]) cylinder(r=r, h=h - 4);
+        if (h > 4) {
+            translate([0,0,2]) cylinder(r=r, h=h - 4);
+        } else {
+            translate([0,0,2]) cylinder(r=r, h=h - 2);
+        }
         cylinder(r=r - 1, h=h);
     }
 }
 
-module case(tentA=0,right=false,trrs=true,switch=false,printedPlate=false,fill=true) {
+module
+case(tentA=0,right=false,trrs=true,switch=false,printedPlate=false,fill=true,tentingScrews=false) {
     bottomW = 2.5;
     sideW = 4;
     edgeH = 4.5;
@@ -353,12 +360,12 @@ module case(tentA=0,right=false,trrs=true,switch=false,printedPlate=false,fill=t
                 }
         }
 
-        // tenting
-        /*
-        for(t=[[4,-7.5,-6.5],[4,74,-6.5]])
-            translate(t)
-            cylinder(h=5.7,d=4+0.2);
-        */
+        if (tentingScrews && tentA > 2.4 && tentA < 5) {
+            // tenting
+            for(t=[[4,-7.5,-6.5],[4,95,-6.5]])
+                translate(t)
+                cylinder(h=5.7,d=4+0.2);
+        }
 
         // outer bounds
         color("white", 0.1)
@@ -420,6 +427,37 @@ module caseWithLipo(right=false, switch=true, trrs=false) {
                 translate([-62,31,depth+1]) cube([8,57,5.4],center=true);
             }
             /* translate([-78,15,depth+1]) cube([40,30,5.4],center=true); */
+        }
+    }
+}
+
+module tentingKit(aTentA=20) {
+    /* intersection() { */
+    /*     mirror([0,0,1]) */
+    /*         linear_extrude(height = 90, convexity = 10, scale=1) */
+    /*         projection(cut = false) pcbContour(fill=true); */
+    /* } */
+    difference() {
+        translate([0,0,-8])
+            render(convexity = 2)
+            counterTent(aTentA,tentP=tentP+[-2,0,0])
+            render(convexity = 2)
+            minkowski() {
+                intersection() {
+                    pcbContour(fill=true);
+                    translate([-5,0,0])
+                        cube([20,200,20],center=true);
+                }
+                translate([0,0,-5])
+                    minkowskier( r=4.5, h=5);
+            };
+        for(t=[[4,-7.5,-6.5],[4,95,-6.5]]) {
+            translate(t)
+                rotate([180,0,0])
+                cylinder(h=100,d=3.4);
+            translate(t+[0,0,-10])
+                rotate([180,0,0])
+                cylinder(h=100,d=15);
         }
     }
 }
@@ -514,6 +552,7 @@ if(var_type=="case"){
     caseWithLipoExt(right=var_right,switch=var_switch);
 }else if(var_type=="caseWithLipo") {
     caseWithLipo(right=var_right,trrs=var_trrs,switch=var_switch);
+
     translate([200,0,0])
         if ($preview) {
             caseWithLipo(right=var_right,trrs=var_trrs,switch=var_switch);
@@ -522,6 +561,8 @@ if(var_type=="case"){
                 color("gray") translate([-22,24,-2.9]) cube([47, 22.5, 5.4], center=true);
                 tent(tentA=2.5)
                     color("green", .7) import("../assets/redox_rev1.stl");
+                /* color("red") */
+                /*     tentingKit(); */
             }
         }
 }
