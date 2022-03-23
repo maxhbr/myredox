@@ -4,14 +4,14 @@
             "var_right": "false",
             "var_switch": "true",
             "var_tentA": "0",
-            "var_trrs": "false",
+            "var_trrs": "true",
             "var_type": "case"
         },
         "case_right": {
             "var_right": "true",
             "var_switch": "true",
             "var_tentA": "0",
-            "var_trrs": "false",
+            "var_trrs": "true",
             "var_type": "case"
         },
         "caseWithLipo": {
