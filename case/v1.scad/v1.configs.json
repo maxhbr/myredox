@@ -5,7 +5,7 @@
             "var_switch": "true",
             "var_tentA": "0",
             "var_trrs": "false",
-            "var_type": "caseWithLipo"
+            "var_type": "case"
         },
         "case_right": {
             "var_right": "true",
