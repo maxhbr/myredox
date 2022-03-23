@@ -573,7 +573,7 @@ module helpview(type=0) {
 }
 
 if(var_type=="case"){
-    case(tentA=var_tentA,trrs=var_trrs,switch=false,printedPlate=var_printedPlate);
+    case(right=var_right,tentA=var_tentA,trrs=var_trrs,switch=false,printedPlate=var_printedPlate);
 
     translate([200,0,0])
         if ($preview) {
