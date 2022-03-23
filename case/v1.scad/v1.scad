@@ -69,7 +69,7 @@ module counterTent(tentA=0,tentP=tentP) {
 module m3hole(t) {
     color("gray")
     translate(t) {
-        cylinder(d=4 + 0.2, h=5.7*2, center=true);
+        cylinder(d=4 + 0.1, h=5.7*2, center=true);
     };
 }
 
@@ -370,7 +370,7 @@ module case(tentA=0,
             // tenting
             for(t=tP)
                 translate(t + [0,0,-6.5])
-                cylinder(h=7,d=4+0.2);
+                cylinder(h=6.6,d=4+0.1);
         }
 
         // outer bounds
