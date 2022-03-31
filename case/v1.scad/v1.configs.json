@@ -5,6 +5,7 @@
             "var_switch": "true",
             "var_tentA": "0",
             "var_trrs": "true",
+            "var_printedPlate": "false",
             "var_type": "case"
         },
         "case_right": {
@@ -12,6 +13,7 @@
             "var_switch": "true",
             "var_tentA": "0",
             "var_trrs": "true",
+            "var_printedPlate": "false",
             "var_type": "case"
         },
         "caseWithLipo": {
@@ -19,6 +21,7 @@
             "var_switch": "true",
             "var_tentA": "0",
             "var_trrs": "false",
+            "var_printedPlate": "false",
             "var_type": "caseWithLipo"
         },
         "caseWithLipo_right": {
@@ -26,27 +29,55 @@
             "var_switch": "true",
             "var_tentA": "0",
             "var_trrs": "false",
+            "var_printedPlate": "false",
             "var_type": "caseWithLipo"
         },
-        "test_caseWithLipo": {
+        "caseWithPrintedPlate": {
             "var_right": "false",
-            "var_switch": "false",
-            "var_tentA": "0",
-            "var_trrs": "true",
-            "var_type": "caseWithLipo"
+            "var_switch": "true",
+            "var_tentA": "2.5",
+            "var_trrs": "false",
+            "var_printedPlate": "true",
+            "var_type": "case"
         },
-        "test_caseWithLipo_right": {
+        "caseWithPrintedPlate_right": {
             "var_right": "true",
-            "var_switch": "false",
-            "var_tentA": "0",
-            "var_trrs": "true",
-            "var_type": "caseWithLipo"
+            "var_switch": "true",
+            "var_tentA": "2.5",
+            "var_trrs": "false",
+            "var_printedPlate": "true",
+            "var_type": "case"
         },
-        "tentKit": {
+        "tentKit20": {
             "var_right": "false",
             "var_switch": "false",
-            "var_tentA": "0",
+            "var_tentA": "20",
             "var_trrs": "true",
+            "var_printedPlate": "false",
+            "var_type": "tentKit"
+        },
+        "tentKit30": {
+            "var_right": "false",
+            "var_switch": "false",
+            "var_tentA": "30",
+            "var_trrs": "true",
+            "var_printedPlate": "false",
+            "var_type": "tentKit"
+        },
+        "tentKit40": {
+            "var_right": "false",
+            "var_switch": "false",
+            "var_tentA": "40",
+            "var_trrs": "true",
+            "var_printedPlate": "false",
+            "var_type": "tentKit"
+        },
+        "tentKit50": {
+            "var_right": "false",
+            "var_switch": "false",
+            "var_tentA": "50",
+            "var_trrs": "true",
+            "var_printedPlate": "false",
             "var_type": "tentKit"
         }
     },

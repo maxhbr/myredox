@@ -21,9 +21,12 @@ out/redox.v1.left.stl:case
 out/redox.v1.right.stl:case_right
 out/redox.v1.left.lipo.stl:caseWithLipo
 out/redox.v1.right.lipo.stl:caseWithLipo_right
-out/tentKit.stl:tentKit
-out/wip/redox.v1.left.lipo-no-switch.stl:test_caseWithLipo
-out/wip/redox.v1.right.lipo-no-switch.stl:test_caseWithLipo_right
+out/redox.v1.left.printedPlate.stl:caseWithPrintedPlate
+out/redox.v1.right.printedPlate.stl:caseWithPrintedPlate_right
+out/tentKit20.stl:tentKit20
+out/tentKit30.stl:tentKit30
+out/tentKit40.stl:tentKit40
+out/tentKit50.stl:tentKit50
 EOF
 
 wait

@@ -1,13 +1,13 @@
 include <../libs/Round-Anything/polyround.scad>;
 
 // include lipo
-var_type="caseWithLipo"; // ["case", "caseWithLipo", "caseWithLipoExt", "tentKit"]
+var_type="case"; // ["case", "caseWithLipo", "caseWithLipoExt", "tentKit"]
 // which side
 var_right=false; // [true,false]
 // incude trrs
-var_trrs=false; // [true,false]
+var_trrs=true; // [true,false]
 // whether to keep space for printed switchpalate
-var_printedPlate=false; // [true,false]
+var_printedPlate=true; // [true,false]
 /* [case] */
 // tening, if no lipo
 var_tentA=0; //[0:1:45]
@@ -105,22 +105,32 @@ module L472878() {
 }
 
 module pcbContour(fill=false) {
-    translate([-213.35,144.3,0])
-        import("../assets/redox_rev1_contour.stl");
-    if (fill) {
-        translate([-0.545,90.53,0.8])
-            cube([10,10,1.6], center=true);
-        translate([-128.845,90.53,0.8])
-            cube([10,10,1.6], center=true);
-        translate([-128.845,1.90,0.8])
-            cube([10,20,1.6], center=true);
-        translate([-50,1.9,0.8]) cube([80,20,1.6], center=true);
+    translate([-0.01,-0.028,0]) {
+        translate([-213.35,144.3,0])
+            import("../assets/redox_rev1_contour.stl");
+        if (fill) {
+            translate([-0.545,90.53,0.8])
+                cube([10,10,1.6], center=true);
+            translate([-128.845,90.53,0.8])
+                cube([10,10,1.6], center=true);
+            translate([-128.845,1.90,0.8])
+                cube([10,20,1.6], center=true);
+            translate([-50,1.9,0.8]) cube([80,20,1.6], center=true);
+        }
     }
 }
 
-module minkowskier(r,h) {
+module printedPlate() {
+    color("gray")
+        translate([57.25,32.25,-2.4 +5])
+        import("../../submodules/Redox-neodox-Case/redox_rev1.0/Neodox_rev1.0-Top-Left_0.12.stl");
+}
+
+module minkowskier(r,h, noTopEdging=false) {
     hull() {
-        if (h > 4) {
+        if (noTopEdging) {
+            translate([0,0,2]) cylinder(r=r, h=h - 2);
+        }else if (h > 4) {
             translate([0,0,2]) cylinder(r=r, h=h - 4);
         } else {
             translate([0,0,2]) cylinder(r=r, h=h - 2);
@@ -139,7 +149,8 @@ module case(tentA=0,
     bottomW = 2.5;
     sideW = 4;
     edgeH = 4.5;
-    overH = printedPlate? 0.7 : 2.5;
+    overH = 2.5;
+    // overH = printedPlate? 0.7 : 2.5;
     delta = 0.5;
 
     mirror(right == false ? [0,0,0] : [1,0,0])
@@ -154,13 +165,12 @@ module case(tentA=0,
                         children();
                     }
                     translate([0,0,-(edgeH + bottomW)])
-                        minkowskier( r=delta+sideW, h=edgeH + bottomW + overH);
+                        minkowskier( r=delta+sideW, h=edgeH + bottomW + overH, noTopEdging=printedPlate);
                 };
 
-            m3hole(p[0]);
-            m3hole(p[1]);
-            m3hole(p[2]);
-            m3hole(p[3]);
+            for (pInstance=p) {
+                m3hole(pInstance);
+            }
             difference() {
                 render(convexity = 2)
                     minkowski() {
@@ -308,6 +318,19 @@ module case(tentA=0,
                 }
             }
 
+        if (printedPlate) {
+            eps=0.2;
+            render(convexity = 2)
+                for (t=[[eps,-eps,0], [eps,0,0], [eps,eps,0],
+                        [0,-eps,0],               [0,eps,0],
+                        [-eps,-eps,0], [-eps,0,0], [-eps,eps,0]])
+                {
+                    translate(t)
+                        printedPlate();
+                }
+        }
+
+
             // outer bounds
             color("white", 0)
                 translate([0,0,100/2+1.6+overH]) cube([1000,1000,100],center=true);
@@ -379,7 +402,7 @@ module case(tentA=0,
     }
 }
 
-module caseWithLipo(right=false, switch=true, trrs=false) {
+module caseWithLipo(right=false, switch=true, trrs=false,printedPlate=false) {
 
     /*
      place for a lipo LP502245
@@ -394,7 +417,7 @@ module caseWithLipo(right=false, switch=true, trrs=false) {
     batteryPos=[-22,24,depth];
     difference() {
         render(convexity = 2)
-            case(tentA=tentA, right=right, trrs=trrs, switch=switch);
+            case(tentA=tentA, right=right, trrs=trrs, switch=switch, printedPlate=printedPlate);
         mirror(right==false ? [0,0,0] : [1,0,0]) {
             // lipo
             hull() {
@@ -577,21 +600,27 @@ if(var_type=="case"){
 
     translate([200,0,0])
         if ($preview) {
-            color("gray")
-                mirror(var_right == false ? [0,0,0] : [1,0,0])
+            case(right=var_right,tentA=var_tentA,trrs=var_trrs,switch=false,printedPlate=var_printedPlate);
+            mirror(var_right == false ? [0,0,0] : [1,0,0]) {
                 tent(tentA=var_tentA)
-                translate([57.25,32.25,-2.4 +5])
-                import("../../submodules/Redox-neodox-Case/redox_rev1.0/Neodox_rev1.0-Top-Left_0.12.stl");
+                    translate([-0.01,-0.028,0])
+                    color("green", .7) import("../assets/redox_rev1.stl");
+                tent(tentA=var_tentA)
+                    printedPlate();
+                for (pInstance=p) {
+                    # translate(pInstance) cylinder(d=2, h=10, center=true);
+                }
+            }
         }
 }else if(var_type=="caseWithLipoExt"){
     caseWithLipoExt(right=var_right,switch=var_switch);
 }else if(var_type=="caseWithLipo") {
-    caseWithLipo(right=var_right,trrs=var_trrs,switch=var_switch);
+    caseWithLipo(right=var_right,trrs=var_trrs,switch=var_switch,printedPlate=var_printedPlate);
 
     translate([200,0,0])
         tent(tentA=30)
         if ($preview) {
-            caseWithLipo(right=var_right,trrs=var_trrs,switch=var_switch);
+            caseWithLipo(right=var_right,trrs=var_trrs,switch=var_switch,printedPlate=var_printedPlate);
 
             mirror(var_right == false ? [0,0,0] : [1,0,0]) {
                 color("gray") translate([-22,24,-2.9]) cube([47, 22.5, 5.4], center=true);
@@ -603,7 +632,7 @@ if(var_type=="case"){
         }
 }else if(var_type=="tentKit") {
     mirror($preview ? [0,0,0] : [0,0,1]) {
-        tentingKit();
+        tentingKit(aTentA=var_tentA);
 
         if ($preview) {
             color("red")
@@ -612,7 +641,7 @@ if(var_type=="case"){
 
         translate([70,0,0]) {
             mirror([1,0,0])
-                tentingKit();
+                tentingKit(aTentA=var_tentA);
 
             if ($preview) {
                 color("red")
@@ -621,7 +650,6 @@ if(var_type=="case"){
         }
     }
 }
-
 
 /* if ($preview) { */
 /*     color("gray") translate([-22,24,-2.9]) cube([47, 22.5, 5.4], center=true); */
